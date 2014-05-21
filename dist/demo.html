@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>workflowProgress</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <style type="text/css">
+body {
+  font: 13px/20px 'Lucida Grande', Tahoma, Verdana, sans-serif;
+  color: #404040;
+  background: #fafafa;
+}
+
+.container {
+  margin: 50px auto;
+  width: 640px;
+}
+.container > div{margin-bottom: 20px;}
+  </style>
+  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.js"></script>
+  <script type="text/javascript" src="./js/workflowprogress.js"></script>
+  
+</head>
+<body>
+  <section class="container">
+    <div class="workflowprogress workflowprogress-green" id="progress1">
+      
+    </div>
+
+<!--
+    <div class="progress">
+      <span class="green" style="width: 40%;"><span>40%</span></span>
+    </div>
+
+    <div class="progress">
+      <span class="orange" style="width: 60%;"><span>60%</span></span>
+    </div>
+
+    <div class="progress">
+      <span class="red" style="width: 80%;"><span>80%</span></span>
+    </div>
+
+    <div class="progress">
+      <span class="blue" style="width: 100%;"><span>100%</span></span>
+    </div>
+-->
+  </section>
+
+  
+  <script type="text/javascript">
+  $(function(){
+    var nodes=['升职加薪','当上总经理','出任CEO','迎娶白富美','走上人生巅峰'];
+
+    var cc=$('.workflowprogress').workflowProgress({nodes:nodes},5);
+  });
+  </script>
+</body>
+</html>
