@@ -1,5 +1,5 @@
 /*!
- * workflowProgress.js
+ * .js
  * Author:bung
  * Summary:workflowProgress.js ===================
  * License:MIT
@@ -10,89 +10,52 @@
  * https://github.com/bung87/workflowProgress.js/blob/master/LICENSE
  *
  */
-
-(function($){
-
-    var defaultOptions={
-      style:'green'
+!function(a) {
+    var b = {
+        style: "green"
+    }, workflowProgress = function(c, d, e) {
+        this.current = 0, this.$children = [], this.context = c, 
+        "static" == this.context.css("position") && this.context.css("position", "relative"), 
+        this.inited = !1, this.opts = a.extend(b, d), this.perWidthRatio = 100 / (this.opts.nodes.length - 1), 
+        this.inited || (this.init(), e && (this.set(e), this.$span.show()));
     };
-    var workflowProgress=function(context,options,nextstep){
-      this.current=0;
-      this.$children=[];
-      this.context=context;
-      if(this.context.css('position')=='static'){
-         this.context.css('position','relative');
-      }
-     
-      this.inited=false;
-
-      this.opts=$.extend(defaultOptions,options);
-
-      this.perWidthRatio=100/(this.opts.nodes.length-1);
-      if(!this.inited){
-         this.init();
-         if(!!nextstep){
-          this.set(nextstep);
-          this.$span.show();
-         }
-      }
-    };
-    workflowProgress.prototype={
-      init:function(){
-        this.$span=$('<span></span>',{'class':'workflowprogress-bar'}).hide();
-        this.$span.appendTo(this.context);
-
-        var mainWidth=this.context.width(),width=mainWidth-40,
-          leftOffset=parseInt(this.context.css('borderLeftWidth')),
-          perWidth=width/(this.opts.nodes.length-1);
-        for (var i = this.opts.nodes.length-1 ; i >= 0; i--) {
-        var offset=(this.context.height()-40)/2,
-        bw='',
-        toffset=tw=0,
-        $child=$('<div><span>'+(i+1)+'</span></div>').addClass('workflowprogress-dot').css({position:'absolute',left:perWidth*i-leftOffset}),
-        $text=$('<div></div>',{'class':'workflowprogress-text'}).css({'position':'absolute','top':-40}).text(this.opts.nodes[i]);
-        $child.appendTo(this.context);
-
-         $text.appendTo(this.context);
-         tw=$text.width();
-         toffset=(tw-40)/2;
-         $text.css({left:perWidth*i-toffset});
-        bw=$child.css('borderWidth');
-        $child.css('top',offset-parseInt(bw));
-         this.$children.push($child.eq(0));
-        };
-        this.inited=true;
-      },
-      set:function(nextstep){
-
-        this.current=nextstep-1;
-        for (var j = this.opts.nodes.length-1 ; j >= 0; j--) {
-
-        if (j<this.current){
-
-          this.$children[this.opts.nodes.length-1-j].addClass('on');
-
-         }
-       }
-       var width=(this.current-1)*this.perWidthRatio;
-       if (width>100){width=100}        
-        this.$span.width(width+'%');
-        return this;
-      }
-    };
-    $.fn.extend({
-      workflowProgress:function(options,nextstep){
-       
-        if(this.length==1){
-         return new workflowProgress(this,options,nextstep);
-        }else{
-          var res=[];
-           $.each(this,function(){
-            res.push(new workflowProgress($(this),options,nextstep));
-          });
-          return res;
+    workflowProgress.prototype = {
+        init: function() {
+            this.$span = a("<span></span>", {
+                "class": "workflowprogress-bar"
+            }).hide(), this.$span.appendTo(this.context);
+            for (var b = this.context.width(), c = b - 40, d = parseInt(this.context.css("borderLeftWidth")), e = c / (this.opts.nodes.length - 1), f = this.opts.nodes.length - 1; f >= 0; f--) {
+                var g = (this.context.height() - 40) / 2, h = "", i = tw = 0, j = a("<div><span>" + (f + 1) + "</span></div>").addClass("workflowprogress-dot").css({
+                    position: "absolute",
+                    left: e * f - d
+                }), k = a("<div></div>", {
+                    "class": "workflowprogress-text"
+                }).css({
+                    position: "absolute",
+                    top: -40
+                }).text(this.opts.nodes[f]);
+                j.appendTo(this.context), k.appendTo(this.context), 
+                tw = k.width(), i = (tw - 40) / 2, k.css({
+                    left: e * f - i
+                }), h = j.css("borderWidth"), j.css("top", g - parseInt(h)), 
+                this.$children.push(j.eq(0));
+            }
+            this.inited = !0;
+        },
+        set: function(a) {
+            this.current = a - 1;
+            for (var b = this.opts.nodes.length - 1; b >= 0; b--) b < this.current && this.$children[this.opts.nodes.length - 1 - b].addClass("on");
+            var c = (this.current - 1) * this.perWidthRatio;
+            return c > 100 && (c = 100), this.$span.width(c + "%"), 
+            this;
         }
-        
-      }
+    }, a.fn.extend({
+        workflowProgress: function(b, c) {
+            if (1 == this.length) return new workflowProgress(this, b, c);
+            var d = [];
+            return a.each(this, function() {
+                d.push(new workflowProgress(a(this), b, c));
+            }), d;
+        }
     });
-  })(jQuery);
+}(jQuery);

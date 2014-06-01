@@ -1,4 +1,4 @@
-@@banner
+
 (function($){
 
     var defaultOptions={
