@@ -1,7 +1,8 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        banner: '/*!\n * <%= script %>.js\n' +
+        script:'workflowProgress.js',
+        banner: '/*!\n * <%= script %>\n' +
             ' * Author:<%= pkg.author %>\n' +
             ' * Summary:<%= pkg.description %>\n' +
             ' * License:<%= pkg.license %>\n' +

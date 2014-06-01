@@ -1,5 +1,5 @@
 /*!
- * .js
+ * workflowProgress.js
  * Author:bung
  * Summary:workflowProgress.js ===================
  * License:MIT
