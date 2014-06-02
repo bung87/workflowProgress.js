@@ -18,9 +18,12 @@
 
       this.perWidthRatio=100/(this.opts.nodes.length-1);
       if(!this.inited){
+          this.current=nextstep-1;
          this.init();
          if(!!nextstep){
+
           this.set(nextstep);
+
           this.$span.show();
          }
       }
@@ -31,40 +34,54 @@
         this.$span.appendTo(this.context);
 
         var mainWidth=this.context.width(),width=mainWidth-40,
-          leftOffset=parseInt(this.context.css('borderLeftWidth')),
-          perWidth=width/(this.opts.nodes.length-1);
+          leftOffset=parseInt(this.context.css('borderLeftWidth'));
+          this.perWidth=width/(this.opts.nodes.length-1);
         for (var i = this.opts.nodes.length-1 ; i >= 0; i--) {
         var offset=(this.context.height()-40)/2,
         bw='',
         toffset=tw=0,
-        $child=$('<div><span>'+(i+1)+'</span></div>').addClass('workflowprogress-dot').css({position:'absolute',left:perWidth*i-leftOffset}),
+        $child=$('<div><span>'+(i+1)+'</span></div>').addClass('workflowprogress-dot').css({position:'absolute',left:this.perWidth*i-leftOffset}),
         $text=$('<div></div>',{'class':'workflowprogress-text'}).css({'position':'absolute','top':-40}).text(this.opts.nodes[i]);
         $child.appendTo(this.context);
 
          $text.appendTo(this.context);
          tw=$text.width();
          toffset=(tw-40)/2;
-         $text.css({left:perWidth*i-toffset});
+         $text.css({left:this.perWidth*i-toffset});
         bw=$child.css('borderWidth');
         $child.css('top',offset-parseInt(bw));
-         this.$children.push($child.eq(0));
+         this.$children.push($child);
         };
+          if (!!this.opts.inprocess && typeof this.opts.inprocess == 'string') {
+              var $processText = $('<span></span>', {'class': 'workflowprogress-process-text'}).text(this.opts.inprocess);
+              $processText.appendTo(this.context);
+              $processText.css({'position': 'absolute', top:40,'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
+          }
         this.inited=true;
       },
-      set:function(nextstep){
+      set:function(nextstep,inprocess){
 
         this.current=nextstep-1;
         for (var j = this.opts.nodes.length-1 ; j >= 0; j--) {
-
+            var $current=this.$children[this.opts.nodes.length-1-j];
         if (j<this.current){
 
-          this.$children[this.opts.nodes.length-1-j].addClass('on');
+            $current.addClass('on');
 
-         }
+         }else{
+            $current.removeClass('on');
+        }
        }
-       var width=(this.current-1)*this.perWidthRatio;
+
+          var $processText=$('.workflowprogress-process-text');
+          if (!!inprocess && typeof inprocess == 'string') {
+              this.opts.inprocess=inprocess;
+              $processText.text(inprocess);
+          }
+          $processText.animate({'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
+       var width=(!!this.opts.inprocess ? this.current : this.current-1)*this.perWidthRatio;
        if (width>100){width=100}        
-        this.$span.width(width+'%');
+        this.$span.animate({width:width+'%'});
         return this;
       }
     };

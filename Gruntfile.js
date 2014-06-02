@@ -11,7 +11,7 @@ module.exports = function (grunt) {
             ' * <%= pkg.homepage %>/blob/master/LICENSE\n *\n */\n',
 
         sass: {
-            dist: {
+            build: {
                 // options: {                       // Target options
                 // style: 'expanded'
                 // },
@@ -48,7 +48,7 @@ module.exports = function (grunt) {
             }
         },
         replace: {
-            dist: {
+            build: {
                 options: {
                     patterns: [
                         {
@@ -62,8 +62,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 files: [
-                    {expand: true, flatten: true, src: ['src/demo.html'], dest: 'dist/'},
-                    {expand: true, flatten: true, src: ['src/js/<%= pkg.main %>'], dest: 'dist/js/'}
+                    {expand: true, flatten: true, src: ['src/demo.html'], dest: 'dist/'}
                 ]
             }
         }
@@ -72,6 +71,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-replace');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('default', ['uglify:clean', 'sass:dist', 'uglify:build']);
+    grunt.registerTask('default', ['uglify:clean', 'sass:build', 'uglify:build','replace:build']);
 
 };
