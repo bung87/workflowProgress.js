@@ -73,14 +73,16 @@
         }
        }
 
+
+       var width=(!!this.opts.inprocess ? this.current : this.current-1)*this.perWidthRatio;
           var $processText=$('.workflowprogress-process-text');
-          if (!!inprocess && typeof inprocess == 'string') {
+          if (!!inprocess && typeof inprocess == 'string' &&width<=100) {
               this.opts.inprocess=inprocess;
               $processText.text(inprocess);
+              $processText.animate({'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
           }
-          $processText.animate({'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
-       var width=(!!this.opts.inprocess ? this.current : this.current-1)*this.perWidthRatio;
-       if (width>100){width=100}        
+
+          if (width>100){width=100}
         this.$span.animate({width:width+'%'});
         return this;
       }

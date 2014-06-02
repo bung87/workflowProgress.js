@@ -61,14 +61,12 @@
                 var e = this.$children[this.opts.nodes.length - 1 - d];
                 d < this.current ? e.addClass("on") : e.removeClass("on");
             }
-            var f = a(".workflowprogress-process-text");
-            c && "string" == typeof c && (this.opts.inprocess = c, 
-            f.text(c)), f.animate({
-                left: parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - f.width() / 2) + 20
-            });
-            var g = (this.opts.inprocess ? this.current : this.current - 1) * this.perWidthRatio;
-            return g > 100 && (g = 100), this.$span.animate({
-                width: g + "%"
+            var f = (this.opts.inprocess ? this.current : this.current - 1) * this.perWidthRatio, g = a(".workflowprogress-process-text");
+            return c && "string" == typeof c && 100 >= f && (this.opts.inprocess = c, 
+            g.text(c), g.animate({
+                left: parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - g.width() / 2) + 20
+            })), f > 100 && (f = 100), this.$span.animate({
+                width: f + "%"
             }), this;
         }
     }, a.fn.extend({
