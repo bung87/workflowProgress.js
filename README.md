@@ -2,14 +2,14 @@ workflowProgress.js
 ===================
 ![preview](preview.png)  
 Useage
-==
+-------------
 ``` 
 $(function(){
       workflowprogress=$('.workflowprogress').workflowProgress(options,nextstep);
   });
 ```
 Params
-===
+-------------
  - **options**  
      - nodes `Array`  
      - inprocess `String`  `[optional]`
@@ -20,7 +20,7 @@ Params
 
 
 Examples
-==
+-------------
 ``` 
 $(function(){
     var nodes=['升职加薪','当上总经理','出任CEO','迎娶白富美','走上人生巅峰'];
