@@ -12,7 +12,9 @@
  */
 !function(a) {
     var b = {
-        style: "green"
+        nodeWidth: 40,
+        nodeTextOffset: 40,
+        processTextOffset: 40
     }, workflowProgress = function(c, d, e) {
         this.current = 0, this.$children = [], this.context = c, 
         "static" == this.context.css("position") && this.context.css("position", "relative"), 
@@ -25,32 +27,35 @@
             this.$span = a("<span></span>", {
                 "class": "workflowprogress-bar"
             }).hide(), this.$span.appendTo(this.context);
-            var b = this.context.width(), c = b - 40, d = parseInt(this.context.css("borderLeftWidth"));
+            var b = this.context.width(), c = b - this.opts.nodeWidth, d = parseInt(this.context.css("borderLeftWidth"));
             this.perWidth = c / (this.opts.nodes.length - 1);
             for (var e = this.opts.nodes.length - 1; e >= 0; e--) {
-                var f = (this.context.height() - 40) / 2, g = "", h = tw = 0, i = a("<div><span>" + (e + 1) + "</span></div>").addClass("workflowprogress-dot").css({
+                var f = (this.context.height() - this.opts.nodeWidth) / 2, g = "", h = tw = 0, i = this.perWidth * e - d, j = a("<div><span>" + (e + 1) + "</span></div>").addClass("workflowprogress-dot").css({
                     position: "absolute",
-                    left: this.perWidth * e - d
-                }), j = a("<div></div>", {
+                    left: i
+                }), k = a("<div></div>", {
                     "class": "workflowprogress-text"
                 }).css({
                     position: "absolute",
-                    top: -40
+                    top: -this.opts.nodeTextOffset
                 }).text(this.opts.nodes[e]);
-                i.appendTo(this.context), j.appendTo(this.context), 
-                tw = j.width(), h = (tw - 40) / 2, j.css({
+                j.appendTo(this.context), k.appendTo(this.context), 
+                tw = k.width(), h = (tw - this.opts.nodeWidth) / 2, 
+                k.css({
                     left: this.perWidth * e - h
-                }), g = i.css("borderWidth"), i.css("top", f - parseInt(g)), 
-                this.$children.push(i);
+                }), g = j.css("borderWidth"), j.css("top", f - parseInt(g)), 
+                this.$children.push(j);
             }
             if (this.opts.inprocess && "string" == typeof this.opts.inprocess) {
-                var k = a("<span></span>", {
+                var l = a("<span></span>", {
                     "class": "workflowprogress-process-text"
                 }).text(this.opts.inprocess);
-                k.appendTo(this.context), k.css({
+                l.appendTo(this.context);
+                var i = parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - l.width() / 2) + this.opts.nodeWidth / 2;
+                l.css({
                     position: "absolute",
-                    top: 40,
-                    left: parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - k.width() / 2) + 20
+                    top: this.opts.processTextOffset,
+                    left: i
                 });
             }
             this.inited = !0;
@@ -64,7 +69,7 @@
             var f = (this.opts.inprocess ? this.current : this.current - 1) * this.perWidthRatio, g = a(".workflowprogress-process-text");
             return c && "string" == typeof c && 100 >= f && (this.opts.inprocess = c, 
             g.text(c), g.animate({
-                left: parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - g.width() / 2) + 20
+                left: parseInt(this.$children[this.opts.nodes.length - this.current].css("left")) + (this.perWidth / 2 - g.width() / 2) + this.opts.nodeWidth / 2
             })), f > 100 && (f = 100), this.$span.animate({
                 width: f + "%"
             }), this;

@@ -2,7 +2,9 @@
 (function($){
 
     var defaultOptions={
-      style:'green'
+      nodeWidth:40,
+      nodeTextOffset:40,
+      processTextOffset:40
     };
     var workflowProgress=function(context,options,nextstep){
       this.current=0;
@@ -33,20 +35,21 @@
         this.$span=$('<span></span>',{'class':'workflowprogress-bar'}).hide();
         this.$span.appendTo(this.context);
 
-        var mainWidth=this.context.width(),width=mainWidth-40,
+        var mainWidth=this.context.width(),width=mainWidth-this.opts.nodeWidth,
           leftOffset=parseInt(this.context.css('borderLeftWidth'));
           this.perWidth=width/(this.opts.nodes.length-1);
         for (var i = this.opts.nodes.length-1 ; i >= 0; i--) {
-        var offset=(this.context.height()-40)/2,
+        var offset=(this.context.height()-this.opts.nodeWidth)/2,
         bw='',
         toffset=tw=0,
-        $child=$('<div><span>'+(i+1)+'</span></div>').addClass('workflowprogress-dot').css({position:'absolute',left:this.perWidth*i-leftOffset}),
-        $text=$('<div></div>',{'class':'workflowprogress-text'}).css({'position':'absolute','top':-40}).text(this.opts.nodes[i]);
+        left=this.perWidth*i-leftOffset,
+        $child=$('<div><span>'+(i+1)+'</span></div>').addClass('workflowprogress-dot').css({position:'absolute',left:left}),
+        $text=$('<div></div>',{'class':'workflowprogress-text'}).css({'position':'absolute','top':-this.opts.nodeTextOffset}).text(this.opts.nodes[i]);
         $child.appendTo(this.context);
 
          $text.appendTo(this.context);
          tw=$text.width();
-         toffset=(tw-40)/2;
+         toffset=(tw-this.opts.nodeWidth)/2;
          $text.css({left:this.perWidth*i-toffset});
         bw=$child.css('borderWidth');
         $child.css('top',offset-parseInt(bw));
@@ -55,7 +58,9 @@
           if (!!this.opts.inprocess && typeof this.opts.inprocess == 'string') {
               var $processText = $('<span></span>', {'class': 'workflowprogress-process-text'}).text(this.opts.inprocess);
               $processText.appendTo(this.context);
-              $processText.css({'position': 'absolute', top:40,'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
+              var left=parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+this.opts.nodeWidth/2;
+              
+              $processText.css({'position': 'absolute', top:this.opts.processTextOffset,'left': left});
           }
         this.inited=true;
       },
@@ -79,7 +84,7 @@
           if (!!inprocess && typeof inprocess == 'string' &&width<=100) {
               this.opts.inprocess=inprocess;
               $processText.text(inprocess);
-              $processText.animate({'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+40/2});
+              $processText.animate({'left': parseInt(this.$children[this.opts.nodes.length-this.current].css('left')) +(this.perWidth / 2 - $processText.width() / 2)+this.opts.nodeWidth/2});
           }
 
           if (width>100){width=100}
