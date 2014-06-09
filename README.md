@@ -6,11 +6,12 @@ Useage
 ``` 
 $(function(){
       workflowprogress=$('.workflowprogress').workflowProgress(options,nextstep);
+      workflowprogress.set(nextstep,inprocess);
   });
 ```
 Params
 -------------
- - **options**  
+ - **options**  `Object`
      - nodes `Array`  
      - inprocess `String`  `[optional]`
      - nodeWidth `Number` *default:40*
