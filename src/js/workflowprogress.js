@@ -35,11 +35,11 @@
         this.$span=$('<span></span>',{'class':'workflowprogress-bar'}).hide();
         this.$span.appendTo(this.context);
 
-        var mainWidth=this.context.width(),width=mainWidth-this.opts.nodeWidth,
+        var mainWidth=this.context.outerWidth(),width=mainWidth-this.opts.nodeWidth,
           leftOffset=parseInt(this.context.css('borderLeftWidth'));
           this.perWidth=width/(this.opts.nodes.length-1);
         for (var i = this.opts.nodes.length-1 ; i >= 0; i--) {
-        var offset=(this.context.height()-this.opts.nodeWidth)/2,
+        var offset=(this.context.outerHeight()-this.opts.nodeWidth)/2,
         bw='',
         toffset=tw=0,
         left=this.perWidth*i-leftOffset,
